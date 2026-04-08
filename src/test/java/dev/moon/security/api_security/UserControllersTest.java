@@ -4,8 +4,8 @@ import dev.moon.security.api_security.controller.UserController;
 
 import dev.moon.security.api_security.model.User;
 import dev.moon.security.api_security.service.UserService;
-import dto.BaseResponse;
-import dto.CreateUserDto;
+import dev.moon.security.api_security.dto.BaseResponse;
+import dev.moon.security.api_security.dto.CreateUserDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.client.RestTestClient;
 import tools.jackson.databind.ObjectMapper;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -61,7 +62,9 @@ class UserControllersTest {
   @Test
   void createUserSuccessfully() throws Exception {
     CreateUserDto userDto = new CreateUserDto("Ryan", "Gosling", null);
-    User expectedUser = new User(1, "Ryan", "Gosling", null, Instant.now());
+    UUID id = UUID.randomUUID();
+
+    User expectedUser = new User(id, "Ryan", "Gosling", null, Instant.now());
 
     when(userService.createUser(any(CreateUserDto.class))).thenReturn(expectedUser);
 
@@ -70,9 +73,9 @@ class UserControllersTest {
                     .content(objectMapper.writeValueAsString(userDto)))
             .andExpect(status().isOk());
 
-    when(userService.getUserWithId(1)).thenReturn(expectedUser);
+    when(userService.getUserWithId(id)).thenReturn(expectedUser);
 
-    mockMvc.perform(get("/user/1"))
+    mockMvc.perform(get("/user/" + id))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.firstName").value("Ryan"))
             .andExpect(jsonPath("$.secondName").value("Gosling"));

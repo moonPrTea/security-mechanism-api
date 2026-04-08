@@ -1,15 +1,16 @@
 package dev.moon.security.api_security.controller;
 
-import dto.BaseResponse;
+import dev.moon.security.api_security.dto.BaseResponse;
 import dev.moon.security.api_security.model.User;
 import dev.moon.security.api_security.service.UserService;
-import dto.CreateUserDto;
+import dev.moon.security.api_security.dto.CreateUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
@@ -22,6 +23,8 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.OK)
             .body(new BaseResponse("success", "Route is working"));
   }
+
+  // for auth status - none
   @GetMapping()
   public ResponseEntity<?> getUsers() {
     List<User> allUsers = userService.getUsers();
@@ -34,7 +37,7 @@ public class UserController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<?> getUserWithId(@PathVariable("id") int userId) {
+  public ResponseEntity<?> getUserWithId(@PathVariable("id") UUID userId) {
     User user = userService.getUserWithId(userId);
 
     if (user == null) {

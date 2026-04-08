@@ -3,11 +3,12 @@ package dev.moon.security.api_security.service;
 
 import dev.moon.security.api_security.dao.UserDao;
 import dev.moon.security.api_security.model.User;
-import dto.CreateUserDto;
+import dev.moon.security.api_security.dto.CreateUserDto;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -21,7 +22,7 @@ public class UserService {
     return userDao.getUsers();
   }
 
-  public User getUserWithId(int userId) {
+  public User getUserWithId(UUID userId) {
     return userDao.getUser(userId);
   }
 

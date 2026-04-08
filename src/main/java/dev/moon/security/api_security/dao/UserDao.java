@@ -6,17 +6,18 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 
 @Repository
 public class UserDao {
-  HashMap<Integer, User> users = new HashMap<>();
-  private final AtomicInteger lastId = new AtomicInteger(0);
+  HashMap<UUID, User> users = new HashMap<>();
 
   public User createUser(User user) {
-    Integer id = lastId.incrementAndGet();
+    UUID id = UUID.randomUUID();
+
     User userRecord = new User(id, user.firstName(), user.secondName(), user.middleName(), user.createdAt());
 
     users.put(id, userRecord);
@@ -27,7 +28,7 @@ public class UserDao {
     return users.values().stream().toList();
   }
 
-  public User getUser(Integer id) {
+  public User getUser(UUID id) {
     return users.values().stream()
             .filter(user -> Objects.equals(user.id(), id))
             .findFirst()

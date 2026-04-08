@@ -2,9 +2,10 @@ package dev.moon.security.api_security.model;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.UUID;
 
 public record User(
-        Integer id,
+        UUID id,
         String firstName,
         String secondName,
         String middleName,

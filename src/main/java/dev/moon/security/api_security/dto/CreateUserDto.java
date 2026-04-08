@@ -1,4 +1,4 @@
-package dto;
+package dev.moon.security.api_security.dto;
 
 public record CreateUserDto(
         String firstName,

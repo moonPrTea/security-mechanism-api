@@ -3,17 +3,15 @@ package dev.moon.security.api_security.dao;
 import dev.moon.security.api_security.model.User;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Repository
 public class UserDao {
-  HashMap<UUID, User> users = new HashMap<>();
+  ConcurrentHashMap<UUID, User> users = new ConcurrentHashMap<>();
 
   public User createUser(User user) {
     UUID id = UUID.randomUUID();

@@ -31,12 +31,13 @@ public class AppAuthConfig {
     entryPoint.afterPropertiesSet();
 
     httpSecurity
-        .authorizeHttpRequests(expressionInterceptUrlRegistry ->
-            expressionInterceptUrlRegistry
-                .requestMatchers("/user/status").permitAll()
-                .anyRequest().authenticated())
-        .httpBasic(httpSecurityHttpBasicConfigurer ->
-            httpSecurityHttpBasicConfigurer.authenticationEntryPoint(entryPoint));
+            .authorizeHttpRequests(expressionInterceptUrlRegistry ->
+                    expressionInterceptUrlRegistry
+                            .requestMatchers("/status").permitAll()
+                            .anyRequest().authenticated())
+            .csrf(csrf -> csrf.disable())
+            .httpBasic(httpSecurityHttpBasicConfigurer ->
+                    httpSecurityHttpBasicConfigurer.authenticationEntryPoint(entryPoint));
 
     return httpSecurity.build();
   }

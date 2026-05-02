@@ -1,14 +1,46 @@
 package dev.moon.security.api_security.model;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record FinancialOperation(
-        UUID operationId,
-        UUID cardId,
-        OperationType operationType,
-        BigDecimal amount,
-        Instant createdAt
-) {
+
+@Entity
+@Table(name = "financial_operation")
+public class FinancialOperation {
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_user_card", nullable = false)
+  private UserCard card;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_operation_type", nullable = false)
+  private OperationType operationType;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_currency", nullable = false)
+  private Currency currency;
+
+  @Column(nullable = false, scale = 5)
+  private BigDecimal amount;
+
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private LocalDateTime createdAt;
+
+  public FinancialOperation() {
+  }
+
+  public FinancialOperation(UserCard card, OperationType operationType,
+                            Currency currency, BigDecimal amount) {
+    this.card = card;
+    this.operationType = operationType;
+    this.currency = currency;
+    this.amount = amount;
+    this.createdAt = LocalDateTime.now();
+  }
 }

@@ -1,35 +1,33 @@
 package dev.moon.security.api_security.dao;
 
-import dev.moon.security.api_security.model.User;
+import dev.moon.security.api_security.dto.CreateUserDto;
+import dev.moon.security.api_security.model.Users;
+import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
+import java.util.UUID;
 
 @Repository
 public class UserDao {
-  ConcurrentHashMap<UUID, User> users = new ConcurrentHashMap<>();
 
-  public User createUser(User user) {
-    UUID id = UUID.randomUUID();
+  private static final Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
 
-    User userRecord = new User(id, user.firstName(), user.secondName(), user.middleName(), user.createdAt());
+  @Autowired
+  SessionFactory sessionFactory;
 
-    users.put(id, userRecord);
-    return userRecord;
+  public void createUser(Users user) {
+    this.sessionFactory.getCurrentSession()
+            .persist(user);
+
+    LOGGER.info("User with surname: %s created successfully", user.getFirstName());
   }
 
-  public List<User> getUsers() {
-    return users.values().stream().toList();
-  }
-
-  public User getUser(UUID id) {
-    return users.values().stream()
-            .filter(user -> Objects.equals(user.id(), id))
-            .findFirst()
-            .orElse(null);
+  public Users getUser(UUID id) {
+    return (Users) this.sessionFactory.getCurrentSession()
+            .find(Users.class, id);
   }
 }

@@ -24,6 +24,7 @@ public class HibernateConfig {
             .addAnnotatedClass(OperationType.class)
             .addAnnotatedClass(UserCard.class)
             .addAnnotatedClass(FinancialOperation.class)
+            .addAnnotatedClass(IdempotencyKeys.class)
             .buildMetadata();
 
     return metadata.buildSessionFactory();

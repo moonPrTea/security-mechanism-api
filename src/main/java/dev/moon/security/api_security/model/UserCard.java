@@ -35,4 +35,50 @@ public class UserCard {
 
   public UserCard() {
   }
+
+  public UserCard(BigDecimal balance, Users user) {
+    this.balance = balance;
+    this.createdAt = LocalDateTime.now();
+    this.user = user;
+  }
+
+  public UUID getId() {
+    return id;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
+  }
+
+  public BigDecimal getBalance() {
+    return balance;
+  }
+
+  public void setBalance(BigDecimal balance) {
+    this.balance = balance;
+  }
+
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
+
+  public LocalDateTime getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(LocalDateTime updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  public List<FinancialOperation> getFinancialOperations() {
+    return financialOperations;
+  }
+
+  public void setFinancialOperations(List<FinancialOperation> financialOperations) {
+    this.financialOperations = financialOperations;
+  }
+
+  public Users getUser() {
+    return user;
+  }
 }

@@ -1,7 +1,7 @@
 package dev.moon.security.api_security.dao;
 
-import dev.moon.security.api_security.dto.CreateUserDto;
 import dev.moon.security.api_security.model.Users;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,5 +29,14 @@ public class UserDao {
   public Users getUser(UUID id) {
     return (Users) this.sessionFactory.getCurrentSession()
             .find(Users.class, id);
+  }
+
+  public Users getUserByUsername(String username) {
+    try (Session session = this.sessionFactory.openSession()) {
+      return session
+              .createQuery("from Users u where u.username = :username", Users.class)
+              .setParameter("username", username)
+              .uniqueResult();
+    }
   }
 }

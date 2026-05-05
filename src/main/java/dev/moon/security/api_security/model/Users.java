@@ -23,6 +23,11 @@ public class Users {
   @Column(name = "middle_name")
   private String middleName;
 
+  @Column(unique = true)
+  private String username;
+
+  private String password;
+
   @Column(name = "created_at")
   private LocalDateTime createdAt;
 
@@ -35,10 +40,12 @@ public class Users {
   public Users() {
   }
 
-  public Users(String firstName, String secondName, String middleName) {
+  public Users(String firstName, String secondName, String middleName, String username, String password) {
     this.firstName = firstName;
     this.secondName = secondName;
     this.middleName = middleName;
+    this.username = username;
+    this.password = password;
     this.createdAt = LocalDateTime.now();
   }
 
@@ -56,6 +63,14 @@ public class Users {
 
   public String getMiddleName() {
     return middleName;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public String getPassword() {
+    return password;
   }
 
   public LocalDateTime getCreatedAt() {

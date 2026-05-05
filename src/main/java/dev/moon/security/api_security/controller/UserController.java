@@ -1,9 +1,11 @@
 package dev.moon.security.api_security.controller;
 
 import dev.moon.security.api_security.dto.BaseResponse;
+import dev.moon.security.api_security.dto.UserRecord;
 import dev.moon.security.api_security.model.Users;
 import dev.moon.security.api_security.service.UserService;
 import dev.moon.security.api_security.dto.CreateUserDto;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,7 @@ public class UserController {
 
   @GetMapping("/{id}")
   public ResponseEntity<?> getUserWithId(@PathVariable("id") UUID userId) {
-    Users user = userService.getUser(userId);
+    UserRecord user = userService.getUser(userId);
 
     if (user == null) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -36,8 +38,7 @@ public class UserController {
   }
 
   @PostMapping
-  public Users createUser(@RequestBody CreateUserDto userDto) {
+  public UserRecord createUser(@RequestBody @Valid CreateUserDto userDto) {
     return userService.createUser(userDto);
-
   }
 }

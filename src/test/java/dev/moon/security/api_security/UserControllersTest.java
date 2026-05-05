@@ -2,6 +2,7 @@ package dev.moon.security.api_security;
 
 import dev.moon.security.api_security.controller.UserController;
 
+import dev.moon.security.api_security.dto.UserRecord;
 import dev.moon.security.api_security.model.Users;
 import dev.moon.security.api_security.service.UserService;
 import dev.moon.security.api_security.dto.BaseResponse;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.client.RestTestClient;
 import tools.jackson.databind.ObjectMapper;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -52,10 +54,11 @@ class UserControllersTest {
 
   @Test
   void createUserSuccessfully() throws Exception {
-    CreateUserDto userDto = new CreateUserDto("Ryan", "Gosling", null);
+    CreateUserDto userDto = new CreateUserDto("Ryan", "Gosling", null, "Ryland_Grace", "Rocky");
     UUID id = UUID.randomUUID();
+    LocalDateTime now = LocalDateTime.now();
 
-    Users expectedUser = new Users("Ryan", "Gosling", null);
+    UserRecord expectedUser = new UserRecord(id, "Ryan", "Gosling", null, "Ryland_Grace", now);
 
     when(userService.createUser(any(CreateUserDto.class))).thenReturn(expectedUser);
 

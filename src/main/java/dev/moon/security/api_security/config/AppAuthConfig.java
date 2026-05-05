@@ -3,6 +3,7 @@ package dev.moon.security.api_security.config;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -17,7 +18,10 @@ public class AppAuthConfig {
   @ConditionalOnProperty(name = "app.auth.mode", havingValue = "none")
   public SecurityFilterChain noneSecurityChain(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
-            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(HttpMethod.POST, "/user").permitAll()
+                    .requestMatchers("/user/status").permitAll()
+                    .anyRequest().authenticated())
             .csrf(csrf -> csrf.disable());
     return httpSecurity.build();
   }
@@ -33,7 +37,8 @@ public class AppAuthConfig {
     httpSecurity
             .authorizeHttpRequests(expressionInterceptUrlRegistry ->
                     expressionInterceptUrlRegistry
-                            .requestMatchers("/status").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/user").permitAll()
+                            .requestMatchers("/user/status").permitAll()
                             .anyRequest().authenticated())
             .csrf(csrf -> csrf.disable())
             .httpBasic(httpSecurityHttpBasicConfigurer ->
@@ -46,10 +51,12 @@ public class AppAuthConfig {
   @ConditionalOnProperty(name = "app.auth.mode", havingValue = "oauth2")
   public SecurityFilterChain oauthSecurityChain(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/user/status").permitAll()
-            .anyRequest().authenticated())
-        .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()));
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(HttpMethod.POST, "/user").permitAll()
+                    .requestMatchers("/user/status").permitAll()
+                    .anyRequest().authenticated())
+            .csrf(csrf -> csrf.disable())
+            .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()));
 
     return httpSecurity.build();
   }

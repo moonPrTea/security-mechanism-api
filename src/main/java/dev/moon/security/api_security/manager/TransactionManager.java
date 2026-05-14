@@ -1,4 +1,4 @@
-package dev.moon.security.api_security;
+package dev.moon.security.api_security.manager;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

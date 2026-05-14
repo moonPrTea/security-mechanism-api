@@ -2,7 +2,6 @@ package dev.moon.security.api_security.controller;
 
 import dev.moon.security.api_security.dto.BaseResponse;
 import dev.moon.security.api_security.dto.UserRecord;
-import dev.moon.security.api_security.model.Users;
 import dev.moon.security.api_security.service.UserService;
 import dev.moon.security.api_security.dto.CreateUserDto;
 import jakarta.validation.Valid;

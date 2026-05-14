@@ -15,7 +15,7 @@ public class IdempotencyKeys {
   @Column(name = "idempotency_key", unique = true, nullable = false)
   private String idempotencyKey;
 
-  @Column(name = "request_hash")
+  @Column(name = "request_hash", nullable = false)
   private String requestHash;
 
   @Column(name = "response_body")
@@ -30,11 +30,9 @@ public class IdempotencyKeys {
   public IdempotencyKeys() {
   }
 
-  public IdempotencyKeys(UUID id, String idempotencyKey, String requestHash, String responseBody) {
-    this.id = id;
+  public IdempotencyKeys(String idempotencyKey, String requestHash) {
     this.idempotencyKey = idempotencyKey;
     this.requestHash = requestHash;
-    this.responseBody = responseBody;
     this.createdAt = LocalDateTime.now();
     this.updatedAt = null;
   }
@@ -55,10 +53,6 @@ public class IdempotencyKeys {
     return requestHash;
   }
 
-  public void setIdempotencyKey(String idempotencyKey) {
-    this.idempotencyKey = idempotencyKey;
-  }
-
   public String getResponseBody() {
     return responseBody;
   }
@@ -67,16 +61,8 @@ public class IdempotencyKeys {
     this.responseBody = responseBody;
   }
 
-  public void setRequestHash(String requestHash) {
-    this.requestHash = requestHash;
-  }
-
   public LocalDateTime getCreatedAt() {
     return createdAt;
-  }
-
-  public void setCreatedAt(LocalDateTime createdAt) {
-    this.createdAt = createdAt;
   }
 
   public LocalDateTime getUpdatedAt() {

@@ -12,8 +12,8 @@ public class OperationType {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  @Column(name = "operation_type")
-  private String operationType;
+  @Column(name = "operation")
+  private String operation;
 
   @OneToMany(mappedBy = "operationType")
   private List<FinancialOperation> financialOperations;
@@ -22,11 +22,15 @@ public class OperationType {
   public OperationType() {
   }
 
+  public UUID getId() {
+    return id;
+  }
+
   public OperationType(String operationType) {
-    this.operationType = operationType;
+    this.operation = operationType;
   }
 
   public String getOperationType() {
-    return operationType;
+    return operation;
   }
 }

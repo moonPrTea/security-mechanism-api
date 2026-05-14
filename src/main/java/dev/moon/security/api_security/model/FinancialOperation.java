@@ -19,6 +19,10 @@ public class FinancialOperation {
   private UserCard card;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_destination_card", nullable = false)
+  private UserCard destinationCard;
+
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_operation_type", nullable = false)
   private OperationType operationType;
 
@@ -35,12 +39,42 @@ public class FinancialOperation {
   public FinancialOperation() {
   }
 
-  public FinancialOperation(UserCard card, OperationType operationType,
+  public FinancialOperation(UserCard card, UserCard destinationCard,
+                            OperationType operationType,
                             Currency currency, BigDecimal amount) {
     this.card = card;
+    this.destinationCard = destinationCard;
     this.operationType = operationType;
     this.currency = currency;
     this.amount = amount;
     this.createdAt = LocalDateTime.now();
+  }
+
+  public UUID getId() {
+    return id;
+  }
+
+  public UserCard getCard() {
+    return card;
+  }
+
+  public UserCard getDestinationCard() {
+    return destinationCard;
+  }
+
+  public OperationType getOperationType() {
+    return operationType;
+  }
+
+  public Currency getCurrency() {
+    return currency;
+  }
+
+  public BigDecimal getAmount() {
+    return amount;
+  }
+
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
   }
 }

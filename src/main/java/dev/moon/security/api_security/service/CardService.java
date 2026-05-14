@@ -1,6 +1,6 @@
 package dev.moon.security.api_security.service;
 
-import dev.moon.security.api_security.TransactionManager;
+import dev.moon.security.api_security.manager.TransactionManager;
 import dev.moon.security.api_security.dao.CardDao;
 import dev.moon.security.api_security.dao.UserDao;
 import dev.moon.security.api_security.dto.CardRecord;
@@ -41,5 +41,13 @@ public class CardService {
 
     return new CardRecord(card.getId(), card.getBalance(),
             card.getCreatedAt());
+  }
+
+  public UserCard checkCardExists(UUID cardId) {
+    return cardDao.checkCardExists(cardId);
+  }
+
+  public void changeCardBalance(UserCard userCard) {
+    cardDao.changeCardBalance(userCard);
   }
 }
